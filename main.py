@@ -29,33 +29,33 @@ MAXTIME = int(input("Tiempo máximo de ejecución en segundos: "))
 
 
 """ Registramos el tiempo de inicio y ejecutamos la simulación. """
-start_time = time.time()
+startTime = time.time()
 model = CellModel(M, N, numAgents, dirtyCellPercentage)
 
 frames =-1
-while datetime.timedelta(seconds=(time.time() - start_time) < MAXTIME):
+while datetime.timedelta(seconds=(time.time() - startTime) < MAXTIME):
     frames+=1
     if model.dirtyCells == 0:
         break
     model.step()
 
 """ Imprimimos el tiempo que le tomó correr al modelo, y sus atributos al final """
-print('Tiempo de ejecución:', str(datetime.timedelta(seconds=(time.time() - start_time))))
+print('Tiempo de ejecución:', str(datetime.timedelta(seconds=(time.time() - startTime))))
 print('Porcentajede celdas limpias:', (model.totalCells-model.dirtyCells)*100/model.totalCells, "%")
 print('Movimientos realizados por los agentes:', model.numMovements)
 
 """ Obtenemos la información que almacenó el colector, este nos entregará un
     DataFrame de pandas que contiene toda la información. """
-all_grid = model.datacollector.get_model_vars_dataframe()
+allGrid = model.datacollector.get_model_vars_dataframe()
 
 # Graficamos la información usando `matplotlib`
 fig, axs = plt.subplots(figsize=(7,7))
 axs.set_xticks([])
 axs.set_yticks([])
-patch = plt.imshow(all_grid.iloc[0][0], cmap=plt.cm.binary)
+patch = plt.imshow(allGrid.iloc[0][0], cmap=plt.cm.binary)
 
 def animate(i):
-    patch.set_data(all_grid.iloc[i][0])
+    patch.set_data(allGrid.iloc[i][0])
 
 anim = animation.FuncAnimation(fig, animate, frames=frames)
 plt.show()
