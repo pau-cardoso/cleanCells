@@ -74,6 +74,8 @@ class CellModel(Model):
         self.dirtyCells = np.floor(self.totalCells * dirtyPercentage)
 
         dirtyCellsLeft = self.dirtyCells
+        while dirtyCellsLeft > 0:
+            
         for row in range(width):
             for col in range(height):
                 if dirtyCellsLeft > 0:
@@ -93,3 +95,9 @@ class CellModel(Model):
     def step(self):
         self.datacollector.collect(self)
         self.schedule.step()
+
+    def isDirty(self, row, col):
+        if self.gridCells[row][col] == 1:
+            return True
+        else:
+            return False
